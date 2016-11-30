@@ -23,7 +23,6 @@ function init() {
         let room = roomScope.Room;
         let visuals = typeof raw == "string"?JSON.parse(raw):raw;
         let visual = visuals[room.roomName];
-        
         let canvas = $('canvas.visual')[0];
 
         if(!canvas){
@@ -37,6 +36,7 @@ function init() {
         }
         let ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        if(!visual) return
         visual.forEach(function(v){
             let [cmd,rawargs] = v.split(' ');
             if(cmd == 'setCanvasScale'){
