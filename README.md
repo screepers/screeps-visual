@@ -14,4 +14,5 @@ visual.js implements nearly all of the canvas context API [MDN](https://develope
 const Visual = require('visual')
 let ctx = new Visual('E0N0')
 ctx.fillRect(1,1,1,1)
+ctx.commit() // Commit to Memory
 ```
