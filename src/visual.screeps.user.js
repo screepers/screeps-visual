@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         Screeps Visual
 // @namespace    https://screeps.com/
-// @version      1.0.0
+// @version      1.0.1
 // @author       Adam Shumann, ags131
 // @match        https://screeps.com/a/*
 // @run-at       document-idle
