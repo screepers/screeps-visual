@@ -1,151 +1,36 @@
+let lzstring = function(){function o(o,r){if(!t[o]){t[o]={};for(var n=0;n<o.length;n++)t[o][o.charAt(n)]=n}return t[o][r]}var r=String.fromCharCode,n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",t={},i={compressToBase64:function(o){if(null==o)return"";var r=i._compress(o,6,function(o){return n.charAt(o)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(e){return o(n,r.charAt(e))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(o){return null==o?"":""==o?null:i._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=i.compress(o),n=new Uint8Array(2*r.length),e=0,t=r.length;t>e;e++){var s=r.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null===o||void 0===o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;t>e;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(o){return null==o?"":i._compress(o,6,function(o){return e.charAt(o)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(n){return o(e,r.charAt(n))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(o,r,n){if(null==o)return"";var e,t,i,s={},p={},u="",c="",a="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<o.length;i+=1)if(u=o.charAt(i),Object.prototype.hasOwnProperty.call(s,u)||(s[u]=f++,p[u]=!0),c=a+u,Object.prototype.hasOwnProperty.call(s,c))a=c;else{if(Object.prototype.hasOwnProperty.call(p,a)){if(a.charCodeAt(0)<256){for(e=0;h>e;e++)m<<=1,v==r-1?(v=0,d.push(n(m)),m=0):v++;for(t=a.charCodeAt(0),e=0;8>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;h>e;e++)m=m<<1|t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=a.charCodeAt(0),e=0;16>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}l--,0==l&&(l=Math.pow(2,h),h++),delete p[a]}else for(t=s[a],e=0;h>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;l--,0==l&&(l=Math.pow(2,h),h++),s[c]=f++,a=String(u)}if(""!==a){if(Object.prototype.hasOwnProperty.call(p,a)){if(a.charCodeAt(0)<256){for(e=0;h>e;e++)m<<=1,v==r-1?(v=0,d.push(n(m)),m=0):v++;for(t=a.charCodeAt(0),e=0;8>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;h>e;e++)m=m<<1|t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=a.charCodeAt(0),e=0;16>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}l--,0==l&&(l=Math.pow(2,h),h++),delete p[a]}else for(t=s[a],e=0;h>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;l--,0==l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;h>e;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==r-1){d.push(n(m));break}v++}return d.join("")},decompress:function(o){return null==o?"":""==o?null:i._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,n,e){var t,i,s,p,u,c,a,l,f=[],h=4,d=4,m=3,v="",w=[],A={val:e(0),position:n,index:1};for(i=0;3>i;i+=1)f[i]=i;for(p=0,c=Math.pow(2,2),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;switch(t=p){case 0:for(p=0,c=Math.pow(2,8),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;l=r(p);break;case 1:for(p=0,c=Math.pow(2,16),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;l=r(p);break;case 2:return""}for(f[3]=l,s=l,w.push(l);;){if(A.index>o)return"";for(p=0,c=Math.pow(2,m),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;switch(l=p){case 0:for(p=0,c=Math.pow(2,8),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;f[d++]=r(p),l=d-1,h--;break;case 1:for(p=0,c=Math.pow(2,16),a=1;a!=c;)u=A.val&A.position,A.position>>=1,0==A.position&&(A.position=n,A.val=e(A.index++)),p|=(u>0?1:0)*a,a<<=1;f[d++]=r(p),l=d-1,h--;break;case 2:return w.join("")}if(0==h&&(h=Math.pow(2,m),m++),f[l])v=f[l];else{if(l!==d)return null;v=s+s.charAt(0)}w.push(v),f[d++]=s+v.charAt(0),h--,s=v,0==h&&(h=Math.pow(2,m),m++)}}};return i}();
+
 class Visual{
   constructor(room,scale=1){
     this.room = room  
     this.queue = []
     this.setCanvasScale(scale)
   }
-  commit(json=true){
-    let visual = Memory.visual || {}
-    if(typeof visual == 'string') visual = JSON.parse(visual)
-    visual[this.room] = this.queue    
-    Memory.visual = json?JSON.stringify(visual):visual
+  commit(compress='lz64'){
+    let visual = Memory.visual || '{}'
+    if(visual.slice(0,3) == 'lz:')
+      visual = lzstring.decompress(visual.slice(3)) || '{}'
+    if(visual.slice(0,5) == 'lz64:')
+      visual = lzstring.decompressFromBase64(visual.slice(5)) || '{}'
+    try{
+      visual = JSON.parse(visual) || {}
+    }catch(e){
+      visual = Memory.visual = {}
+      console.log(e)
+    }
+    visual[this.room] = this.queue
+    visual = JSON.stringify(visual)
+    if(compress == 'lz')
+      visual = 'lz:'+lzstring.compress(visual)
+    if(compress == 'lz64')
+      visual = 'lz64:'+lzstring.compressToBase64(visual)
+    Memory.visual = visual
   }
   setCanvasScale(scale=1){
-    this.queue.push(`setCanvasScale [${50*scale}]`)
-    this.scale(50*scale,50*scale)
+    this.queue.push(['setCanvasScale',50*scale])
   }
 }
 
-class VisualEncoder {
-  constructor(opts){
-    this.opts = opts || {}
-  }
-  encode(cmds){
-    return cmds
-  }
-  decode(cmds){
-    return cmds
-  }
-}
-
-class VisualCompactEncoder extends VisualEncoder {
-  constructor(opts){
-    super(opts)
-    this.opts.mode = this.opts.mode || 'base64'
-    this.opts.compress = this.opts.compress || false
-    this.map = { encode: {}, decode: {} }
-    this.types = { encode: {}, decode: {} }
-    let functions = [
-      'clearRect','fillRect','strokeRect','fillText','strokeText','setLineDash',
-      'createLinearGradient','createRadialGradient','createPattern',
-      'beginPath','closePath','moveTo','lineTo','bezierCurveTo','quadraticCurveTo','arc','arcTo','ellipse','rect',
-      'fill','stroke','clip',
-      'rotate','scale','translate','transform','setTransform','resetTransform',
-      'save','restore'
-    ]
-    let props = [
-      'lineWidth','lineCap','lineJoin','miterLimit','lineDashOffset',
-      'font','textAlign','textBaseline','direction',
-      'fillStyle','strokeStyle',
-      'shadowBlur','shadowColor','shadowOffsetX','shadowOffsetY',
-      'globalAlpha','globalCompositeOperation'
-    ]
-    let types = [
-      "__DUMMY__",
-      "string",
-      "number"
-    ]
-    functions.forEach((v,k)=>{
-      this.map.encode[v] = k
-      this.map.decode[k] = v
-    })
-    props.forEach((v,k)=>{
-      k += 127
-      this.map.encode[v] = k
-      this.map.decode[k] = v
-    })
-    types.forEach((v,k)=>{
-      this.types.encode[v] = k
-      this.types.decode[k] = v
-    })
-  }
-  encode(cmds){
-    cmds = cmds.map(rawcmd=>{
-      let [cmd,...args] = rawcmd
-      cmd = this.map.encode[cmd]
-      cmd = String.fromCharCode(cmd)
-      cmd += String.fromCharCode(args.length)
-      args = args.map(a=>{
-        let oa = a
-        let type = this.types.encode[typeof a]
-        let metadata = 0
-        if(typeof a == 'number')
-          a = this.encodeNumber(a)
-        metadata = a.length
-        let fb = this.toHiLo(type,metadata)
-        fb = String.fromCharCode(fb)
-        return `${fb}${a}`
-      }).join('')
-      return `${cmd}${args}`
-    }).join('')
-    return cmds
-  }
-
-  decode(cmds){
-    let i = 0;
-    let ret = []
-    while(i < cmds.length){
-      let cmd = cmds.charCodeAt(i++)
-      let argcnt = cmds.charCodeAt(i++)
-      cmd = this.map.decode[cmd]
-      let args = []
-      while(argcnt--){
-        let [type,metadata] = this.fromHiLo(cmds.charCodeAt(i++))
-        type = this.types.decode[type]
-        let data = cmds.substr(i,metadata)
-        i += metadata
-        if(type == 'number')
-          data = this.decodeNumber(data)
-        args.push(data)
-      }
-      ret.push([cmd,...args])
-    }
-    return ret
-  }
-
-  encodeNumber(n){
-    let ret = ''
-    n >>>= 0
-    while(n > 0){
-      let v = n & 0xFF
-      n >>>= 8
-      ret += String.fromCharCode(v)
-    }
-    return ret
-  }
-
-  decodeNumber(data){
-    if(!data.length) return 0
-    let ret = 0
-    let i = data.length - 1
-    do{
-      ret <<= 8
-      ret += data.charCodeAt(i)
-    }while(i-- > 0)
-    return ret
-  }
-
-  toHiLo(hi,lo){
-    return (((hi & 0x0F) << 4) + (lo & 0x0F)) >>> 0
-  }
-
-  fromHiLo(hilo){
-    return [
-      (hilo & 0xF0) >>> 4,
-      (hilo & 0x0F) >>> 0
-    ]
-  }
-}
 let functions = [
   'clearRect','fillRect','strokeRect','fillText','strokeText','setLineDash',
   'createLinearGradient','createRadialGradient','createPattern',
@@ -154,6 +39,7 @@ let functions = [
   'rotate','scale','translate','transform','setTransform','resetTransform',
   'save','restore'
 ]
+
 let props = [
   'lineWidth','lineCap','lineJoin','miterLimit','lineDashOffset',
   'font','textAlign','textBaseline','direction',
@@ -164,7 +50,7 @@ let props = [
 
 functions.forEach(f=>{
   Visual.prototype[f] = function(...a){ 
-    this.queue.push(`${f} ${JSON.stringify(a)}`)
+    this.queue.push([f,...a])
   }  
 })
 
@@ -175,37 +61,10 @@ props.forEach(p=>{
     },
     set: function(v){
       this[`_${p}`] = v
-      this.queue.push(`${p} ${v}`)
+      this.queue.push([p,v])
     }
   })
 })  
 
+
 module.exports = Visual
-
-if(require.main == module){
-  let testdata = JSON.parse("{\"E6N29\":[\"save []\",\"beginPath []\",\"moveTo [1625,975]\",\"lineTo [1675,975]\",\"lineTo [1725,975]\",\"lineTo [1775,975]\",\"lineTo [1825,1025]\",\"lineTo [1875,1075]\",\"lineTo [1925,1125]\",\"strokeStyle #CCCCCC\",\"lineWidth 25\",\"lineCap round\",\"stroke []\",\"restore []\",\"save []\",\"beginPath []\",\"moveTo [1625,975]\",\"lineTo [1675,975]\",\"lineTo [1725,975]\",\"lineTo [1775,975]\",\"lineTo [1825,1025]\",\"lineTo [1875,1075]\",\"lineTo [1925,1125]\",\"lineTo [1925,1175]\",\"lineTo [1875,1225]\",\"lineTo [1875,1275]\",\"lineTo [1875,1325]\",\"strokeStyle #CCCCCC\",\"lineWidth 25\",\"lineCap round\",\"stroke []\",\"restore []\",\"save []\",\"beginPath []\",\"moveTo [1575,925]\",\"lineTo [1575,875]\",\"lineTo [1525,825]\",\"lineTo [1525,775]\",\"lineTo [1475,725]\",\"lineTo [1475,675]\",\"lineTo [1475,625]\",\"lineTo [1475,575]\",\"lineTo [1475,525]\",\"lineTo [1425,475]\",\"lineTo [1375,425]\",\"lineTo [1325,375]\",\"lineTo [1275,375]\",\"lineTo [1225,375]\",\"lineTo [1175,375]\",\"lineTo [1125,375]\",\"lineTo [1075,425]\",\"lineTo [1025,475]\",\"lineTo [975,525]\",\"lineTo [925,575]\",\"lineTo [875,575]\",\"lineTo [825,625]\",\"lineTo [775,675]\",\"lineTo [725,675]\",\"lineTo [675,675]\",\"lineTo [625,675]\",\"lineTo [575,675]\",\"lineTo [525,675]\",\"lineTo [475,625]\",\"lineTo [425,575]\",\"lineTo [375,525]\",\"strokeStyle #CCCCCC\",\"lineWidth 25\",\"lineCap round\",\"stroke []\",\"restore []\"],\"E3N31\":[\"setCanvasScale [50]\",\"scale [50,50]\"],\"E9N31\":[\"setCanvasScale [50]\",\"scale [50,50]\",\"fillStyle rgba(255,255,255,0.3)\",\"fillRect [19,25,1,1]\",\"fillRect [20,24,1,1]\",\"fillRect [20,26,1,1]\",\"fillRect [21,24,1,1]\",\"fillRect [21,26,1,1]\",\"fillRect [22,25,1,1]\",\"fillRect [24,20,1,1]\",\"fillRect [24,21,1,1]\",\"fillRect [24,29,1,1]\",\"fillRect [24,30,1,1]\",\"fillRect [25,19,1,1]\",\"fillRect [25,22,1,1]\",\"fillRect [25,28,1,1]\",\"fillRect [25,31,1,1]\",\"fillRect [26,20,1,1]\",\"fillRect [26,21,1,1]\",\"fillRect [26,29,1,1]\",\"fillRect [26,30,1,1]\",\"fillRect [28,25,1,1]\",\"fillRect [29,24,1,1]\",\"fillRect [29,26,1,1]\",\"fillRect [30,24,1,1]\",\"fillRect [30,26,1,1]\",\"fillRect [31,25,1,1]\"]}")
-  testdata = testdata.E6N29
-  testdata = testdata.map(d=>{
-    let [cmd,args] = d.split(' ')
-    if(args[0] == '[') args = JSON.parse(args)
-    else args = [args]
-    return [cmd,...args]
-  })
-  let orig = JSON.stringify(testdata)
-  console.log('Orig:',orig.length)
-  let enc = new VisualCompactEncoder()
-  let encoded = enc.encode(testdata)
-  console.log('Encoded:',encoded.length)
-  console.log('Encoded (base64):',btoa(encoded).length)
-  let decoded = enc.decode(encoded)
-  let decodedLen = JSON.stringify(decoded).length
-  console.log('Decoded:',decodedLen)
-}  
-
-function btoa(v){
-  return new Buffer(v).toString('base64')
-}
-
-function atob(v){
-  return new Buffer(v,'base64').toString('utf8')
-}
