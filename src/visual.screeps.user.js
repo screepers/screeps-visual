@@ -20,7 +20,7 @@ function init() {
     sock.on(`user:${Game.player}/memory/visual`,function(event){
         let raw = event.edata;
         if(!$('section.room').length) return;
-        let roomElem = angular.element($('section.room'))
+        let roomElem = angular.element($('section.room'));
         let roomScope = roomElem.scope();
         let room = roomScope.Room;
         let visuals = typeof raw == "string"?JSON.parse(raw):raw;
@@ -28,14 +28,15 @@ function init() {
         let canvas = $('canvas.visual')[0];
 
         if(!canvas){
-            canvas = createCanvas()
+            canvas = createCanvas();
             addToggle();
         }
         let ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        if(!visual) return
+        if(!visual) return;
         visual.forEach(function(v){
-            let [cmd,rawargs] = v.split(' ');
+            let cmd     = v.slice(0, v.indexOf(' ')),
+                rawargs = v.slice(v.indexOf(' ')+1);
             if(cmd == 'setCanvasScale'){
               let size = JSON.parse(rawargs);
               canvas.width = size*50;
