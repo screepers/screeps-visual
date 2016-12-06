@@ -37,7 +37,12 @@ let functions = [
   'beginPath','closePath','moveTo','lineTo','bezierCurveTo','quadraticCurveTo','arc','arcTo','ellipse','rect',
   'fill','stroke','clip',
   'rotate','scale','translate','transform','setTransform','resetTransform',
-  'save','restore'
+  'save','restore',
+  'defineColors',
+  'drawMatrix',
+  'drawLine',
+  'drawCell',
+  'writeText',
 ]
 
 let props = [

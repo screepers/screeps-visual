@@ -21,23 +21,23 @@ function init() {
   sock.on(`user:${Game.player}/memory/visual`,function(event){
     let raw = event.edata;
     if(!$('section.room').length) return;
-    let roomElem = angular.element($('section.room'))
+    let roomElem = angular.element($('section.room'));
     let roomScope = roomElem.scope();
     let room = roomScope.Room;
-    if(raw.substr(0,3) == 'lz:') raw = lzstring.decompress(raw.slice(3)) || '{}'
-    if(raw.substr(0,5) == 'lz64:') raw = lzstring.decompressFromBase64(raw.slice(5)) || '{}'
-    let visuals = JSON.parse(raw) || {}
+    if(raw.substr(0,3) == 'lz:') raw = lzstring.decompress(raw.slice(3)) || '{}';
+    if(raw.substr(0,5) == 'lz64:') raw = lzstring.decompressFromBase64(raw.slice(5)) || '{}';
+    let visuals = JSON.parse(raw) || {};
     let visual = visuals[room.roomName];
     let canvas = $('canvas.visual')[0];
 
     if(!canvas){
-      canvas = createCanvas()
+      canvas = createCanvas();
       addToggle();
     }
     let ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(!visual) return
-    renderLayer(ctx,visual)
+    if(!visual) return;
+    renderLayer(ctx,visual);
   });
 }
 
@@ -45,16 +45,7 @@ function renderLayer(ctx,layer){
   ctx.save();
   for(let i=0;i<layer.length;i++){
     let [cmd,...args] = layer[i];
-    console.log(cmd,args)
-    if(cmd == 'setCanvasScale'){
-      let size = args[0];
-      ctx.canvas.width = size*50;
-      ctx.canvas.height = size*50;
-      ctx.scale(size,size)
-    }else if(typeof ctx[cmd] == 'function')
-      ctx[cmd].apply(ctx,args);
-    else
-      ctx[cmd] = args[0];
+    executeCmd(ctx,cmd,args)
   }
   ctx.restore();
 }
@@ -74,7 +65,7 @@ function createCanvas(){
 }
 
 function addToggle(){
-  if($('.visualToggle').length) return
+  if($('.visualToggle').length) return;
   let roomScope = angular.element($('section.room')).scope();
   roomScope.showVisual = true;
   let room = roomScope.Room;
@@ -85,6 +76,74 @@ function addToggle(){
   elem.appendTo(cont);
 }
 
+function executeCmd(ctx,cmd,args=[]){
+  console.log('ec',cmd,args)
+  switch(cmd){
+    case 'setCanvasScale':
+      let size = args[0];
+      ctx.canvas.width = size*50;
+      ctx.canvas.height = size*50;
+      ctx.scale(size,size);
+      break;
+    case 'defineColors':
+      ctx.__colors = args[0];
+      break;
+    case 'drawMatrix':
+      if(!ctx.__colors) setDefaultColors(ctx);
+      args[0].forEach((c,i)=>{
+        let x = i %  50;
+        let y = (i-x) / 50;
+        ctx.fillStyle = getColor(ctx,c);
+        ctx.fillRect(x,y,1,1);
+      });
+      break;
+    case 'drawLine':
+      ctx.translate(0.5,0.5);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = getColor(ctx,args[1]);
+      ctx.beginPath();    
+      args[0].forEach((xy,i)=>{
+        let x,y;
+        if(xy instanceof Array){
+            x = xy[0];
+            y = xy[1];
+        }else{
+            x = xy.x;
+            y = xy.y;
+        }
+        if(i==0)
+          ctx.moveTo(x,y);
+        else
+          ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      ctx.translate(-0.5,-0.5);
+      break;
+    case 'drawCell':
+      ctx.fillStyle = getColor(ctx,args[2]);
+      ctx.fillRect(args[0],args[1],1,1);
+      break;
+    case 'writeText':
+      // TODO
+      break;
+    default:
+      if(typeof ctx[cmd] == 'function')
+        ctx[cmd].apply(ctx,args);
+      else
+        ctx[cmd] = args[0];
+      break;
+  }
+}
+
+function getColor(ctx,ind){
+  return ctx.__colors[ind || 0] || ind || '#000000';
+}
+
+function setDefaultColors(ctx){
+  ctx.__colors = ['#000000','#FFFFFF','#FF0000','#00FF00','#0000FF'];
+}
 
 $(function () {
   // push the load to the end of the event queue
