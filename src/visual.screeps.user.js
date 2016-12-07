@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         Screeps Visual
 // @namespace    https://screeps.com/
-// @version      1.0.3
+// @version      1.1.0
 // @author       Adam Shumann, ags131
 // @match        https://screeps.com/a/*
 // @run-at       document-idle
@@ -17,8 +17,8 @@ function init() {
   let Game = gameEl.scope().Game;
   let sock = gameEl.injector().get('Socket');
   let $compile = gameEl.injector().get('$compile');
-  sock.unsubscribe(`user:${Game.player}/memory/visual`);
-  sock.on(`user:${Game.player}/memory/visual`,function(event){
+  sock.unsubscribe(`user:${Game.player}/memory/__visual`);
+  sock.on(`user:${Game.player}/memory/__visual`,function(event){
     let raw = event.edata;
     if(!$('section.room').length) return;
     let roomElem = angular.element($('section.room'));
@@ -149,3 +149,4 @@ $(function () {
   // push the load to the end of the event queue
   setTimeout(init);
 });
+

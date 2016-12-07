@@ -6,8 +6,9 @@ Adds a few useful variable wrappers to conole.
 2. Click [here](https://github.com/screepers/screeps-visual/raw/master/src/visual.screeps.user.js)
 3. Click install on the resulting screen
 4. Add visual.js to your screeps codebase
-5. Refresh screeps
-6. Profit! (Note: Nothing will render until your code tells it to, See Usage below)
+5. Add `RawVisual.commit()` at the end of your main loop
+6. Refresh screeps
+7. Profit! (Note: Nothing will render until your code tells it to, See Usage below)
 
 # Usage
 visual.js implements nearly all of the canvas context API [MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
@@ -15,7 +16,7 @@ visual.js implements nearly all of the canvas context API [MDN](https://develope
 const Visual = require('visual')
 let ctx = new Visual('E0N0')
 ctx.fillRect(1,1,1,1)
-ctx.commit() // Commit to Memory
+ctx.commit() // Commit this renderqueue, will NOT save until RawVisual.commit() is called
 ```
 
 Example function to render creep paths.
@@ -38,7 +39,8 @@ function visualizePaths(){
         }
       }
     })
-    visual.commit('')
+    visual.commit()
+    ctx.commit() // Commit this renderqueue, will NOT save until RawVisual.commit() is called
   })
 }
 ```
