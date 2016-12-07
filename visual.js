@@ -20,7 +20,7 @@ global.RawVisual = {
     return _.get(Memory,__VISUAL_MEMORY_PATH,'{}')
   },
   set raw(value){
-    _.set(Memory,__VISUAL_MEMORY_PATH,value)
+    _.set(Memory,__VISUAL_MEMORY_PATH,value)    
   },
   get data(){
     if(!this._data) this.load()

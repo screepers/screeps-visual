@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         Screeps Visual
 // @namespace    https://screeps.com/
-// @version      1.1.0
+// @version      1.1.1
 // @author       Adam Shumann, ags131
 // @match        https://screeps.com/a/*
 // @run-at       document-idle
@@ -78,6 +78,7 @@ function addToggle(){
 
 function executeCmd(ctx,cmd,args=[]){
   console.log('ec',cmd,args)
+  let opts = {}
   switch(cmd){
     case 'setCanvasScale':
       let size = args[0];
@@ -98,10 +99,11 @@ function executeCmd(ctx,cmd,args=[]){
       });
       break;
     case 'drawLine':
+      opts = args[2] || {}
       ctx.translate(0.5,0.5);
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.lineWidth = 0.5;
+      ctx.lineCap = opts.lineCap || 'round';
+      ctx.lineJoin = opts.lineJoin ||'round';
+      ctx.lineWidth = opts.lineWidth ||0.5;
       ctx.strokeStyle = getColor(ctx,args[1]);
       ctx.beginPath();    
       args[0].forEach((xy,i)=>{
