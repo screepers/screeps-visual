@@ -2,6 +2,7 @@ Adds a few useful variable wrappers to conole.
 
 # Installation
 
+## Extension (Browser Only)
 1. Install greasemonkey or tampermonkey
 2. Click [here](https://github.com/screepers/screeps-visual/raw/master/src/visual.screeps.user.js)
 3. Click install on the resulting screen
@@ -9,6 +10,22 @@ Adds a few useful variable wrappers to conole.
 5. Add `RawVisual.commit()` at the end of your main loop
 6. Refresh screeps
 7. Profit! (Note: Nothing will render until your code tells it to, See Usage below)
+
+## Manually (Browser + Steam Client)
+1. Add this snippet to your code
+```javascript
+global.loadVisual = function(){
+  return console.log('<script>' + 
+    'if(!window.visualLoaded){' + 
+    '  $.getScript("https://screepers.github.io/screeps-visual/src/visual.screeps.user.js");' + 
+    '  window.visualLoaded = true;' + 
+    '}</script>')
+}
+```
+2. Run `loadVisual()` to load visuals
+3. Profit!
+
+* Note: Step 2 will need to be repeated each time you load the steam client or browser tab
 
 # Usage
 visual.js implements nearly all of the canvas context API [MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
