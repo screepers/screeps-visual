@@ -13,15 +13,16 @@ Adds a few useful variable wrappers to conole.
 
 ## Manually (Browser + Steam Client)
 1. Add this snippet to your code
-```javascript
-global.loadVisual = function(){
-  return console.log('<script>' + 
-    'if(!window.visualLoaded){' + 
-    '  $.getScript("https://screepers.github.io/screeps-visual/src/visual.screeps.user.js");' + 
-    '  window.visualLoaded = true;' + 
-    '}</script>')
-}
-```
+
+  ```javascript
+  global.loadVisual = function(){
+    return console.log('<script>' + 
+      'if(!window.visualLoaded){' + 
+      '  $.getScript("https://screepers.github.io/screeps-visual/src/visual.screeps.user.js");' + 
+      '  window.visualLoaded = true;' + 
+      '}</script>')
+  }
+  ```
 2. Run `loadVisual()` to load visuals
 3. Profit!
 
