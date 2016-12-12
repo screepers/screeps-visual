@@ -23,8 +23,10 @@ Adds a few useful variable wrappers to conole.
       '}</script>')
   }
   ```
-2. Run `loadVisual()` to load visuals
-3. Profit!
+2. Add visual.js to your screeps codebase
+3. Add `RawVisual.commit()` at the end of your main loop
+4. Run `loadVisual()` to load visuals
+5. Profit!
 
 * Note: Step 2 will need to be repeated each time you load the steam client or browser tab
 
