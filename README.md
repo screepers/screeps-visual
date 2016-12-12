@@ -25,10 +25,8 @@ Adds a few useful variable wrappers to conole.
   ```
 2. Add visual.js to your screeps codebase
 3. Add `RawVisual.commit()` at the end of your main loop
-4. Run `loadVisual()` to load visuals
+4. Run `loadVisual()` to load visuals (Note: This step will need to be repeated each time you load the steam client or browser tab)
 5. Profit!
-
-* Note: Step 2 will need to be repeated each time you load the steam client or browser tab
 
 # Usage
 visual.js implements nearly all of the canvas context API [MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
